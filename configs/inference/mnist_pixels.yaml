@@ -1,5 +1,5 @@
 diffusion_sampler:
-  run_dir: "/mnt/z/Ultrasound-BMd/pretrained/ddim/2024_04_15_153539_ddim_train_mnist/"
+  run_dir: "trained_models/mnist"
   image_shape: [32, 32, 1]
   num_steps: 1000
   num_samples_to_take: 50

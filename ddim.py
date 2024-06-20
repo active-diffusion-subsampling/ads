@@ -9,7 +9,7 @@ import h5py
 import keras
 import tensorflow as tf
 from keras import ops
-from utils.usbmd import log
+from utils.lib import log
 
 from guidance.latent_guidance import get_guidance as get_latent_guidance
 from guidance.pixel_guidance import get_guidance as get_pixel_guidance

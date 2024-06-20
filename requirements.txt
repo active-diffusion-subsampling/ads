@@ -1,0 +1,15 @@
+matplotlib
+numpy
+scipy
+pillow
+scikit-image
+scikit-learn
+h5py
+opencv-python
+schema
+tqdm
+pyyaml
+decorator
+futures3
+tk
+PyQt5

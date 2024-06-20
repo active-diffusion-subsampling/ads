@@ -1,0 +1,52 @@
+seed: 42
+data:
+  image_shape: [128, 128, 2]
+  n_frames: 1
+  dataset_repetitions: 2
+  batch_size: 16
+  train_folder: "FastMRI/LOUPE/train"
+  val_folder: "FastMRI/LOUPE/val"
+  num_img: null
+  extension: "hdf5"
+  hdf5_key: "data/complex_image"
+  n_samples_per_file: 1
+  # range here refers to the min and max values in
+  # the complex image space
+  range: [-100, 100]
+  normalization: [-1, 1]
+  resize_type: "resize"
+  local: null
+
+
+evaluation:
+  batch_size: 16
+  diffusion_steps: 20
+  kid:
+    image_shape: [75, 75, 3]
+    diffusion_steps: 5
+    enable: false
+
+sampling:
+  min_signal_rate: 0.02
+  max_signal_rate: 0.95
+
+model:
+  embedding_dims: 32
+  embedding_max_frequency: 1000.0
+  widths: [32, 64, 96, 128]
+  block_depth: 2
+  diffusion_steps: 30
+  run_eagerly: false
+  latent: false
+  autoencoder_checkpoint_directory: null
+
+optimization:
+  num_epochs: 500
+  ema: 0.999
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  loss: "mae"
+
+device: "auto:1"
+hide_devices: null
+ml_library: "tensorflow"

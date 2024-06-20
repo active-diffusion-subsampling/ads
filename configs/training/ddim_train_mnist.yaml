@@ -1,0 +1,49 @@
+seed: 42
+data:
+  image_shape: [32, 32, 1]
+  n_frames: 1
+  dataset_repetitions: 1
+  batch_size: 32
+  train_folder: "MNIST/train"
+  val_folder: "MNIST/test"
+  num_img: null
+  extension: "png"
+  hdf5_key: "data/image"
+  range: [0, 255]
+  normalization: [-1, 1]
+  resize_type: "resize"
+  local: null
+
+evaluation:
+  batch_size: 16
+  diffusion_steps: 20
+  kid:
+    image_shape: [75, 75, 3]
+    diffusion_steps: 5
+    enable: false
+
+sampling:
+  min_signal_rate: 0.02
+  max_signal_rate: 0.95
+
+model:
+  embedding_dims: 32
+  embedding_max_frequency: 1000.0
+  # widths: [32, 64, 96, 128]
+  widths: [32, 64, 128]
+  block_depth: 2
+  diffusion_steps: 30
+  run_eagerly: false
+  latent: false
+  autoencoder_checkpoint_directory: null
+
+optimization:
+  num_epochs: 500
+  ema: 0.999
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  loss: "mae"
+
+device: "auto:1"
+hide_devices: null
+ml_library: "tensorflow"

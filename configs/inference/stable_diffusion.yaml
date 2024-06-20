@@ -1,0 +1,29 @@
+diffusion_sampler:
+  run_dir: /train_models/stable_diffusion
+  image_shape: [256, 256, 3]
+  num_steps: 800
+  num_samples_to_take: 200
+  sampling_window: [0, 200]
+  initial_step: 0 # [0, num_steps]
+  batch_size: 4
+  selection_strategy: pixel_variance
+  dataset_variance_map_path: null
+  pixel_region_radius: 10
+  # selection_strategy: pixel_variance
+  # sigma: 10 -> good for column_entropy
+  # sigma: 100
+  data_domain: image
+  hard_consistency: false
+  initial_measurement: false
+  guidance_method: psld
+  guidance_kwargs:
+    omega: 1
+    gamma: 0.1
+  plotting_interval: 20
+
+  batch_design:
+    num_samples: 1000
+    omega_multiplier: 10
+    lamda: 0.0001
+    learning_rate: 5000
+    num_gradient_steps: 100

@@ -1,0 +1,24 @@
+diffusion_sampler:
+  run_dir: "trained_models/mnist"
+  image_shape: [32, 32, 1]
+  num_steps: 1000
+  num_samples_to_take: 20
+  sampling_window: [0, 800]
+  initial_step: 0 # [0, num_steps]
+  batch_size: 16
+  selection_strategy: pixel_random
+  sigma: 10
+  data_domain: image
+  hard_consistency: false
+  initial_measurement: false
+  guidance_method: dps
+  guidance_kwargs:
+    omega: 1
+
+
+  batch_design:
+    num_samples: 2
+    omega_multiplier: 1
+    lamda: 0.0001
+    learning_rate: 5000
+    num_gradient_steps: 100

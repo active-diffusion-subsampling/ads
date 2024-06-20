@@ -1,0 +1,24 @@
+diffusion_sampler:
+  run_dir: "trained_models/fastmri"
+  image_shape: [128, 128, 2]
+  num_steps: 10000
+  num_samples_to_take: 32 # 4x acceleration
+  sampling_window: [50, 2500]
+  initial_step: 0 # [0, num_steps]
+  batch_size: 16
+  selection_strategy: column_entropy
+  sigma: 50
+  data_domain: kspace
+  hard_consistency: true
+  initial_measurement: true
+  guidance_method: dps
+  guidance_kwargs:
+    omega: 0.85
+
+
+  batch_design:
+    num_samples: 2
+    omega_multiplier: 1
+    lamda: 0.0001
+    learning_rate: 5000
+    num_gradient_steps: 100

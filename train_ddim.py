@@ -100,9 +100,6 @@ def train_ddim(
     min_signal_rate = config.sampling.min_signal_rate
     max_signal_rate = config.sampling.max_signal_rate
     diffusion_steps = config.model.diffusion_steps
-    compute_kid = config.evaluation.kid.enable
-    kid_diffusion_steps = config.evaluation.kid.diffusion_steps
-    kid_image_shape = config.evaluation.kid.image_shape
     run_eagerly = config.model.run_eagerly
     latent = config.model.latent
 
@@ -134,9 +131,6 @@ def train_ddim(
         max_signal_rate=max_signal_rate,
         diffusion_steps=diffusion_steps,
         image_range=config.data.normalization,
-        compute_kid=compute_kid,
-        kid_diffusion_steps=kid_diffusion_steps,
-        kid_image_shape=kid_image_shape,
         # mean=config.data.mean,
         # variance=config.data.variance,
         latent_diffusion=latent,
@@ -162,7 +156,6 @@ def train_ddim(
         run_eagerly=run_eagerly,
     )  # pixelwise mean absolute error is used as loss
 
-    # # save the best model based on the validation KID metric
     checkpoint_file = str(checkpoint_path / "diffusion_model_{epoch}.weights.h5")
     checkpoint_callback = keras.callbacks.ModelCheckpoint(
         filepath=checkpoint_file,

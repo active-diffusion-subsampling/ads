@@ -14,7 +14,6 @@ from utils.lib import log
 from guidance.latent_guidance import get_guidance as get_latent_guidance
 from guidance.pixel_guidance import get_guidance as get_pixel_guidance
 from load_model import load_model
-from losses import KID
 from models.unet import get_network
 from utils.keras_utils import get_ram_info
 
@@ -31,9 +30,6 @@ class DiffusionModel(keras.Model):
         max_signal_rate=0.95,
         diffusion_steps=20,
         image_range=(0, 1),
-        compute_kid=False,
-        kid_diffusion_steps=5,
-        kid_image_shape=None,
         mean=None,
         variance=None,
         latent_diffusion=False,
@@ -52,9 +48,6 @@ class DiffusionModel(keras.Model):
         self.max_signal_rate = max_signal_rate
         self.diffusion_steps = diffusion_steps
         self.image_range = image_range
-        self.compute_kid = compute_kid
-        self.kid_diffusion_steps = kid_diffusion_steps
-        self.kid_image_shape = kid_image_shape if kid_image_shape else image_shape
 
         self.mean = mean
         self.variance = variance
@@ -120,8 +113,6 @@ class DiffusionModel(keras.Model):
 
         self.noise_loss_tracker = keras.metrics.Mean(name="n_loss")
         self.image_loss_tracker = keras.metrics.Mean(name="i_loss")
-        if self.compute_kid:
-            self.kid = KID("kid", self.image_shape, self.kid_image_shape)
         if self.latent_diffusion:
             self.autoencoder.compile(run_eagerly=run_eagerly, jit_compile=jit_compile)
 
@@ -132,10 +123,7 @@ class DiffusionModel(keras.Model):
 
     @property
     def metrics(self):
-        if self.compute_kid:
-            return [self.noise_loss_tracker, self.image_loss_tracker, self.kid]
-        else:
-            return [self.noise_loss_tracker, self.image_loss_tracker]
+        return [self.noise_loss_tracker, self.image_loss_tracker]
 
     def diffusion_schedule(self, diffusion_times):
         """Cosine diffusion schedule https://arxiv.org/abs/2102.09672
@@ -370,7 +358,6 @@ class DiffusionModel(keras.Model):
         for weight, ema_weight in zip(self.network.weights, self.ema_network.weights):
             ema_weight.assign(self.ema_val * ema_weight + (1 - self.ema_val) * weight)
 
-        # KID is not measured during the training phase for computational efficiency
         ram_usage = float(get_ram_info()["percentage"])
         return {m.name: m.result() for m in self.metrics} | {"RAM %": ram_usage}
 
@@ -403,16 +390,6 @@ class DiffusionModel(keras.Model):
 
         self.image_loss_tracker.update_state(image_loss)
         self.noise_loss_tracker.update_state(noise_loss)
-
-        # measure KID between real and generated images
-        # this is computationally demanding, kid_diffusion_steps has to be small
-        if self.compute_kid:
-            # images = self.denormalize(images)
-            image_shape = [batch_size, image_height, image_width, n_channels]
-            generated_images = self.generate(
-                image_shape=image_shape, diffusion_steps=self.kid_diffusion_steps
-            )
-            self.kid.update_state(images, generated_images)
 
         ram_usage = float(get_ram_info()["percentage"])
         return {m.name: m.result() for m in self.metrics} | {"RAM %": ram_usage}

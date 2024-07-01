@@ -29,7 +29,7 @@ In order to create the fastMRI dataset used for the experiments in ADS, you'll n
 * For example, train on fastMRI using `train_ddim.py --config=configs/training/ddim_train_fastmri.yaml --data_root=data/ --run_dir=trained_models/`.
 * Make sure to check that the `train_folder` and `val_folder` in the config YAML file point to the correct datasets relative to your data root. e.g., if your data root is `/data/`, and the `train_folder` in your config is `FastMRI/LOUPE/train`, then the absolute path to your train set should be `/data/FastMRI/LOUPE/train`.
 ## Downloading weights:
-* `<coming-soon>`
+* Download link `<coming-soon>`
 ## Run inference with a trained model
 * First, choose one of the configs in `configs/inference` and make sure that `diffusion_sampler.run_dir` points to the folder containing your model's `config.yaml` and checkpoints directory. You can edit this config to change inference parameters, such as the number of samples to take, or number of reverse diffusion steps.
 * Then run inference using `python inference_active_sampler.py --config=/path/to/inference/config --data_root=/path/to/data/root --target_img=/path/to/target/img` e.g. `python inference_active_sampler.py --config=configs/inference/mnist_pixels.yaml --data_root=data --target_img=sample_images/mnist_0.png` 

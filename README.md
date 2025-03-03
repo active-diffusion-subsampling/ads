@@ -9,7 +9,7 @@
 ### Docker 
 You can create the docker image locally by either:
   * (i) Building the docker image yourself via `docker build -t ads .`
-  * (ii) Downloading the pre-built image from docker hub via `docker pull <coming-soon>`
+  * (ii) Downloading the pre-built image from docker hub via `docker pull oisinnolan/ads`
 Once you've got the docker image locally, you can run it via:
 ```bash
 docker run -w /ads -it --rm --gpus device=0 -v /local/path/to/ads:/ads/ -v /local/path/to/data/root/:/data/ ads:latest

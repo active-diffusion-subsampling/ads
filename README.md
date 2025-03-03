@@ -68,6 +68,15 @@ python benchmark/benchmark_fastmri.py --use_test_set=True --test_set_path=data/F
 python benchmark/aggregate_fastmri_results.py --jobid=123456 --full_test_set=True --results_dir=results/fastMRI
 ```
 
+# Citation
+```
+@article{nolan2024active,
+  title={Active diffusion subsampling},
+  author={Nolan, Oisin and Stevens, Tristan SW and van Nierop, Wessel L and van Sloun, Ruud JG},
+  journal={arXiv preprint arXiv:2406.14388},
+  year={2024}
+}
+```
 
 
 # References

@@ -8,12 +8,9 @@
 ## Environment setup
 ### Docker 
 You can create the docker image locally by either:
-  * (i) Building the docker image yourself via `docker build -t ads .`
-  * (ii) Downloading the pre-built image from docker hub via `docker pull oisinnolan/ads`
-Once you've got the docker image locally, you can run it via:
-```bash
-docker run -w /ads -it --rm --gpus device=0 -v /local/path/to/ads:/ads/ -v /local/path/to/data/root/:/data/ ads:latest
-```
+  * (i) Building the docker image yourself via `docker build -t ads .` Once you've got the docker image locally, you can run it via: `docker run -w /ads -it --rm --gpus device=0 -v /local/path/to/ads:/ads/ -v /local/path/to/data/root/:/data/ ads:latest`
+  * (ii) Downloading the pre-built image from docker hub via `docker pull oisinnolan/ads`. Similarly, you can run this via: `docker run -w /ads -it --rm --gpus device=0 -v /local/path/to/ads:/ads/ -v /local/path/to/data/root/:/data/ oisinnolan/ads:latest`.
+
 This will spin up a docker container and open an interactive shell, within which you can run the scripts as usual using python.
 ## Data preparation
 The following sections explain how to prepare the fastMRI and MNIST datasets to reproduce the paper results. These datasets should be placed in some local directory, e.g. `/data/` which we refer to as the 'data root'.
@@ -33,8 +30,11 @@ In order to create the fastMRI dataset used for the experiments in ADS, you'll n
 * Download the folder `trained_model`, containing configs and weights for the MNIST and fastMRI models, and place this in the project root directory. The inference configs in `configs/` should then point to these directories.
 ## Run inference with a trained model
 * First, choose one of the configs in `configs/inference` and make sure that `diffusion_sampler.run_dir` points to the folder containing your model's `config.yaml` and checkpoints directory. You can edit this config to change inference parameters, such as the number of samples to take, or number of reverse diffusion steps.
-* Then run inference using `python inference_active_sampler.py --config=/path/to/inference/config --data_root=/path/to/data/root --target_img=/path/to/target/img` e.g. `python inference_active_sampler.py --config=configs/inference/mnist_pixels.yaml --data_root=data --target_img=sample_images/mnist_0.png` 
-* Your results should be saved in your diffusion sampler run_dir directory, in the `inference` subdirectory.
+* Then run inference using `python inference_active_sampler.py --config=/path/to/inference/config --data_root=/path/to/data/root --target_img=/path/to/target/img`
+
+e.g. `python inference_active_sampler.py --config=configs/inference/mnist_pixels.yaml --data_root=data --target_img=sample_images/mnist_0.png` 
+* Your results should be saved in your diffusion sampler run_dir directory, in the `inference` subdirectory. This should produce a number of outputs, including a summary GIF like the following:
+![frames_mnist](https://github.com/user-attachments/assets/21d2e270-e91a-416f-a530-4ce351f4edb6)
 
 ## Reproduce experimental results
 * The two main experimental results from the paper are on (i) MNIST and (ii) fastMRI. These experiments have been implemented in the scripts `benchmark_mnist.py` and `benchmark_fastmri.py`. There are then separate scripts that produce the plots and tables presented in the paper, from the benchmarking script outputs.
